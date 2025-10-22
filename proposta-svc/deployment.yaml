@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: proposta-svc
+  namespace: microsservices-ns
 spec:
   selector:
     matchLabels:
-      app: apolice-svc
+      app: proposta-svc
   template:
     metadata:
       labels:
-        app: apolice-svc
+        app: proposta-svc
     spec:
       containers:
-        - name: apolice-svc-container
+        - name: proposta-svc-container
           image: israelsz13/proposta-svc:0.1
           ports:
             - containerPort: 8080
@@ -29,7 +30,7 @@ spec:
               value: "http://+:8080"
 
             - name: Kafka__BootstrapServers
-              value: kafka-externo:9092
+              value: kafka-externo.kafka-ns.svc.cluster.local:9092
 
             - name: ConnectionStrings__SqlServer
               valueFrom:

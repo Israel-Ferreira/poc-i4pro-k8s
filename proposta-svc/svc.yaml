@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  namespace: microsservices-ns
+  name: proposta-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: proposta-svc
+  ports:
+  - port: 8080       # porta interna do container
+    targetPort: 8083
