@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orquestrador-svc
+  namespace: microsservices-ns
+
+
+spec:
+  selector:
+    matchLabels:
+      app: orquestrador-svc
+  template:
+    metadata:
+      labels:
+        app: orquestrador-svc
+    spec:
+      containers:
+        - name: orquestrador-svc-container
+          image: israelsz13/orquestrador-svc:0.1
+          ports:
+            - containerPort: 8080
+              name: porta-http
+
+            - containerPort: 8081
+              name: porta-https
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
+
+            - name: Kafka__BootstrapServers
+              value: kafka-externo.kafka-ns.svc.cluster.local :9092
+
+            - name: ConnectionStrings__SqlServer
+              valueFrom:
+                secretKeyRef:
+                  key: ConnectionStrings__SqlServer
+                  name: orquestrador-secrets

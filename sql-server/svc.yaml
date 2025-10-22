@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: sql-server
+  namespace: sql-server-ns
+  labels:
+    app: sql-server
+
+spec:
+  ports:
+    - port: 1433
+      protocol: TCP
+      name: porta-sql-server-interna
+
+  clusterIP: None
+  selector:
+    app: sql-server
+
+
+--- 
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: sql-server-externo
+  namespace: sql-server-ns
+  labels:
+    app: sql-server-externo
+
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 1433
+      protocol: TCP
+      targetPort: 1433
+      name: porta-sql-server-externa
+
+  selector:
+    app: sql-server

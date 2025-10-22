@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sql-server
+  namespace: sql-server-ns
+  labels:
+    app: sql-server
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql-server
+    
+  serviceName: sql-server
+  
+  template:
+    metadata:
+      labels:
+        app: sql-server
+
+    spec:
+      securityContext:
+        fsGroup: 10001
+      containers:
+        - name: sql-server-container
+          image: mcr.microsoft.com/mssql/server:2025-latest
+          ports:
+            - containerPort: 1433
+
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-server-secrets
+                  key: MSSQL_SA_PASSWORD
+
+
+          volumeMounts:
+            - mountPath: /var/opt/mssql
+              name: mssql-data
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mssql-data
+
+      spec:
+        accessModes: 
+          - ReadWriteOnce
+
+        resources: 
+          requests:
+            storage: 8Gi
+
+          
+                  
+              
+          
+    

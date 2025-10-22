@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: apolice-svc
+  template:
+    metadata:
+      labels:
+        app: apolice-svc
+    spec:
+      containers:
+        - name: apolice-svc-container
+          image: israelsz13/proposta-svc:0.1
+          ports:
+            - containerPort: 8080
+              name: porta-http
+
+            - containerPort: 8081
+              name: porta-https
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
+
+            - name: Kafka__BootstrapServers
+              value: kafka-externo:9092
+
+            - name: ConnectionStrings__SqlServer
+              valueFrom:
+                secretKeyRef:
+                  key: ConnectionStrings__SqlServer
+                  name: proposta-secrets

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  namespace: kafka-ns
+  name: kafka-ui
+spec:
+  type: LoadBalancer
+  selector:
+    app: kafka-ui
+  ports:
+  - port: 8080       # porta interna do container
+    targetPort: 8080
+    nodePort: 30080  # porta externa que você acessa no Minikube
