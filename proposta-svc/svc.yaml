@@ -5,9 +5,9 @@ metadata:
   namespace: microsservices-ns
   name: proposta-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: proposta-svc
   ports:
-    - port: 8083
+    - port: 8080
       targetPort: 8080
