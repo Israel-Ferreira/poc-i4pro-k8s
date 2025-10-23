@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: apolice-svc
+  namespace: microsservices-ns
 spec:
   selector:
     matchLabels:
@@ -29,7 +30,7 @@ spec:
               value: "http://+:8080"
 
             - name: Kafka__BootstrapServers
-              value: kafka-externo:9092
+              value: kafka-externo.kafka-ns.svc.cluster.local:9092
 
             - name: ConnectionStrings__SqlServer
               valueFrom:

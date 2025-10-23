@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: pagamento-svc
+  namespace: microsservices-ns
 spec:
   selector:
     matchLabels:
-      app: apolice-svc
+      app: pagamento-svc
   template:
     metadata:
       labels:
-        app: apolice-svc
+        app: pagamento-svc
     spec:
       containers:
-        - name: apolice-svc-container
-          image: israelsz13/apolice-svc:0.1
+        - name: pagamento-svc-container
+          image: israelsz13/pagamento-svc:0.1
           ports:
             - containerPort: 8080
               name: porta-http
@@ -29,10 +30,10 @@ spec:
               value: "http://+:8080"
 
             - name: Kafka__BootstrapServers
-              value: kafka-externo:9092
+              value: kafka-externo.kafka-ns.svc.cluster.local:9092
 
             - name: ConnectionStrings__SqlServer
               valueFrom:
                 secretKeyRef:
                   key: ConnectionStrings__SqlServer
-                  name: apolice-secrets
+                  name: pagamento-secrets

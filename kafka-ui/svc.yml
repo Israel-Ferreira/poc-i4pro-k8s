@@ -9,6 +9,5 @@ spec:
   selector:
     app: kafka-ui
   ports:
-  - port: 8080       # porta interna do container
+  - port: 8090       # porta interna do container
     targetPort: 8080
-    nodePort: 30080  # porta externa que você acessa no Minikube

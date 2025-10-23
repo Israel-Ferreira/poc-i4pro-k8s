@@ -9,5 +9,5 @@ spec:
   selector:
     app: proposta-svc
   ports:
-  - port: 8080       # porta interna do container
-    targetPort: 8083
+    - port: 8083
+      targetPort: 8080
