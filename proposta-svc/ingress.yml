@@ -3,8 +3,12 @@ kind: Ingress
 metadata:
   name: proposta-svc-ing
   namespace: microsservices-ns
+  annotations:
+    konghq.com/plugins: rate-limit-5-min
+
   labels:
     app.kubernetes.io/name: myingress
+    
 spec:
   ingressClassName: kong
   rules:
